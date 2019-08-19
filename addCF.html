@@ -1,0 +1,85 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>STAGED CROWDFUNDING</title>
+
+
+
+    <script src="./node_modules/web3/dist/web3.min.js"></script>
+
+</head>
+<body>
+    <div class="container">
+
+        <h1>Testing Staged Crowdfunding</h1>
+  
+<h2>Project Name</h2>
+        <label for="projectTitle" class="col-lg-2 control-label">Project Title</label>
+        <input id="projectTitle" type="text">
+        <label for="projectDesc" class="col-lg-2 control-label">Project Desc</label>
+        <input id="projectDesc" type="text">
+        <label for="DurationInDays" class="col-lg-2 control-label">Project Title</label>
+        <input id="DurationInDays" type="text">
+        <label for="AmtToRaise" class="col-lg-2 control-label">Project Title</label>
+        <input id="AmtToRaise" type="text">
+ 
+          <button id="btnAdd">Add </button>
+ 
+    
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+    if (typeof web3 !== 'undefined') {
+       web3 = new Web3(web3.currentProvider);
+   } else {
+       // set the provider you want from Web3.providers
+       web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+   }
+       // Our future code here..
+        web3.eth.defaultAccount = web3.eth.accounts[0];
+        var BCContract = web3.eth.contract([ { "constant": false, "inputs": [], "name": "checkIfFundingCompleteOrExpired", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "contribute", "outputs": [], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": false, "inputs": [], "name": "getRefund", "outputs": [ { "internalType": "bool", "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [ { "internalType": "address payable", "name": "projectStarter", "type": "address" }, { "internalType": "string", "name": "projectTitle", "type": "string" }, { "internalType": "string", "name": "projectDesc", "type": "string" }, { "internalType": "uint256", "name": "fundRaisingDeadline", "type": "uint256" }, { "internalType": "uint256", "name": "goalAmount", "type": "uint256" } ], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": false, "internalType": "address", "name": "contributor", "type": "address" }, { "indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256" }, { "indexed": false, "internalType": "uint256", "name": "currentTotal", "type": "uint256" } ], "name": "FundingReceived", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": false, "internalType": "address", "name": "recipient", "type": "address" } ], "name": "CreatorPaid", "type": "event" }, { "constant": true, "inputs": [], "name": "amountGoal", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "completeAt", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "internalType": "address", "name": "", "type": "address" } ], "name": "contributions", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "creator", "outputs": [ { "internalType": "address payable", "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "currentBalance", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "description", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getDetails", "outputs": [ { "internalType": "address payable", "name": "projectStarter", "type": "address" }, { "internalType": "string", "name": "projectTitle", "type": "string" }, { "internalType": "string", "name": "projectDesc", "type": "string" }, { "internalType": "uint256", "name": "deadline", "type": "uint256" }, { "internalType": "enum Project.State", "name": "currentState", "type": "uint8" }, { "internalType": "uint256", "name": "currentAmount", "type": "uint256" }, { "internalType": "uint256", "name": "goalAmount", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "raiseBy", "outputs": [ { "internalType": "uint256", "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "state", "outputs": [ { "internalType": "enum Project.State", "name": "", "type": "uint8" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "title", "outputs": [ { "internalType": "string", "name": "", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" } ])
+
+
+        var aBCContract = BCContract.at('0x801a00d832bd20b67bdfaf1dc0bed9d607efabf7');
+
+ 
+
+$("#btnAdd").click(function() {
+  var projectTitle = $("#projectTitle").val();
+  var projectDesc = $("#projectDesc").val();
+  var DurationInDays = $("#DurationInDays").val();
+  var AmtToRaise = $("#AmtToRaise").val();
+ ;
+
+ aBCContract.startProject(projectTitle, projectDesc, DurationInDays, AmtToRaise,  function(error, result){
+    if(!error)
+    {
+ 
+        console.log(result);
+    }
+    else {
+       
+        console.error(error);
+      }
+    });
+
+});
+ ;
+
+    </script>
+
+</body>
+</html>
